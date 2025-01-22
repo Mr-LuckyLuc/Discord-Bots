@@ -1,0 +1,16 @@
+```
+prefix: 'wl! '<commando>
+
+commando's:
+    starten met leren: 'start'
+        legt zelf uit wat te doen hierna
+            speel:       dan doe je mee
+            start <set>: dan start het spel
+                sets:   alles
+                        alfabet
+                        het verkeer
+                        (test)
+    stoppen met leren: 'stop'
+    help(dit bericht): 'help'
+    lijst toevoegen:   'add' {"*naam*": {"v1": "a1", "v2": "a2", ...}}
+```

@@ -1,0 +1,8 @@
+ipv allow admin een copie van het kanaal waar de bot dublicaten stuurt      -privacy   50-75%
+personal channel        -private commands
+andere commands         -logical
+help commando           -ease of use
+wachtrij ipv wachter    -bigger population
+rol wachtrijen          -sorteren dates
+selfrole?               -rollen  (later)
+bot geen admin          -privacy and feeling

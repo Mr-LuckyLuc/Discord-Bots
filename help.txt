@@ -1,0 +1,26 @@
+```
+prefix: 'tb! '
+
+adding reaction: 'add reaction: <identifier>*to react to*<identifier>;*reaction*'
+identifiers:    /:      this message has to be the exact same.
+                <i>:    this part must be included in the message.
+                <c>:    this message is not case sensitive.
+                <ic>:   this part must be in the message and is not case sensitive.
+
+deleting a reaction: 'delete reaction: *to react to*;*reaction*'
+warning: this will delete **all** reactions with this as key.
+
+showing available reactions: 'show reactions *kind*'
+kinds:  normal:                     shows the normal reactions.
+        inclusive:                  shows the inclusive reactions.
+        case insensitive:           shows the case insensitive reactions.
+        including case insensitive: shows the inclusive case insensitive reactions.
+        all:        		        shows all the reactions.           
+
+online message changing: 'online message: *switch*'
+switches:   on:     turns the online message on.
+            off:    turns the online message off.
+            toggle: toggles the online message state.
+
+help: 'help'
+```
