@@ -90,13 +90,20 @@ module.exports = {
                             enlistee.rank = ranks.indexOf(rank);
                             enlisted[enlisteeId] = enlistee;
                     
-                            fs.writeFile("enlisted.txt", JSON.stringify(enlisted), (err) => {
+                            fs.writeFile("./promotionBot/enlisted.txt", JSON.stringify(enlisted), (err) => {
                                 if(err){
                                     console.log(err);
                                 }else{
                                     console.log('rank written');
                                 }
                             });
+
+                            console.log(interaction.guild.roles)
+                            const oldRole = interaction.guild.roles.cache.find(role => role.name === 'test1');
+                            user.roles.remove(oldRole);
+
+                            const newRole = interaction.guild.roles.cache.find(role => role.name === 'test2');
+                            user.roles.add(newRole);
 
                             await user.setNickname(rank + ' ' + enlisted[enlisteeId].nickname)
 

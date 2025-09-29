@@ -6,11 +6,10 @@ const path = require('node:path');
 const fs = require('node:fs');
 
 const { Client, Collection, Events, GatewayIntentBits, REST, Routes} = require('discord.js');
-const { log } = require("node:console");
 
 // setup ----------------------------------------------
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });
 
 // Construct and prepare an instance of the REST module
 let ranks = [];
@@ -63,6 +62,16 @@ const rest = new REST().setToken(process.env.TOKEN);
         { body: jsonCommands },);
     console.log(`Successfully reloaded ${data.length} commands.`);
 })();
+
+client.on('guildMemberAdd', member => {
+    const role = member.guild.roles.cache.find(role => role.name === 'RCT');
+    member.roles.add(role);
+    console.log(member);
+    
+    const name = member.user.username
+
+    member.setNickname("[E-1] RCT " + (name.length>22 ? name.slice(0,21) : name));
+});
 
 client.on(Events.InteractionCreate, (interaction) => {
     
