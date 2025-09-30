@@ -36,7 +36,7 @@ module.exports = {
             if(err){
                 console.log(err);
             }else{
-                console.log('nicknames written');
+                console.log('nicknames changed');
             }
         });
 

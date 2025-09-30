@@ -18,7 +18,7 @@ fs.readFile("./promotionBot/ranks.txt", "utf8", (err,data) => {
     if(err){
         console.error(err);
     }else{
-        ranks = data.split(",");
+        ranks = JSON.parse(data);
         client.ranks = ranks;
     }
 });
@@ -64,7 +64,7 @@ const rest = new REST().setToken(process.env.TOKEN);
 })();
 
 client.on('guildMemberAdd', member => {
-    const role = member.guild.roles.cache.find(role => role.name === 'RCT');
+    const role = member.guild.roles.cache.find(role => role.name === '[E-1] Recruite');
     member.roles.add(role);
     console.log(member);
     

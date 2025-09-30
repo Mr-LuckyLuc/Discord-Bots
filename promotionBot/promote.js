@@ -27,8 +27,8 @@ module.exports = {
         const rankSelect = new StringSelectMenuBuilder()
 			.setCustomId('rank')
 			.setPlaceholder('Make a selection!');
-
-		for (const rank of ranks) {
+        
+		for (const [rank, info] of Object.entries(ranks)) {
             rankSelect.addOptions(
 				new StringSelectMenuOptionBuilder()
 					.setLabel(rank)
@@ -64,13 +64,15 @@ module.exports = {
             if (userConfirmation.customId === 'user') {
                 const enlisteeId = userConfirmation.values[0];
                 const user = await interaction.guild.members.fetch(enlisteeId);
+                const enlistee = enlisted[enlisteeId];
+
+                const oldGroup = interaction.guild.roles.cache.find(role => role.name === ranks[enlistee.rank].group);
+                            const oldRank = interaction.guild.roles.cache.find(role => role.name === ranks[enlistee.rank].rank);
 
                 if (enlisteeId == interaction.guild.ownerId) {
                     await userConfirmation.update({content: "No permission to change this soldier (server owner)", components: []});
                     return;
                 }
-
-                console.log("why");
 
                 userConfirmation.update({
                     content: `What rank do you want to promote to?`,
@@ -86,26 +88,27 @@ module.exports = {
 
                         try{
 
-                            const enlistee = enlisted[enlisteeId];
-                            enlistee.rank = ranks.indexOf(rank);
+                            enlistee.rank = rank;
                             enlisted[enlisteeId] = enlistee;
                     
                             fs.writeFile("./promotionBot/enlisted.txt", JSON.stringify(enlisted), (err) => {
                                 if(err){
                                     console.log(err);
                                 }else{
-                                    console.log('rank written');
+                                    console.log('rank changed');
                                 }
                             });
+                            
+                            const newGroup = interaction.guild.roles.cache.find(role => role.name === ranks[rank].group);
+                            const newRank = interaction.guild.roles.cache.find(role => role.name === ranks[rank].rank);
 
-                            console.log(interaction.guild.roles)
-                            const oldRole = interaction.guild.roles.cache.find(role => role.name === 'test1');
-                            user.roles.remove(oldRole);
+                            user.roles.remove(oldGroup);
+                            user.roles.add(newGroup);
+                            
+                            user.roles.remove(oldRank);
+                            user.roles.add(newRank);
 
-                            const newRole = interaction.guild.roles.cache.find(role => role.name === 'test2');
-                            user.roles.add(newRole);
-
-                            await user.setNickname(rank + ' ' + enlisted[enlisteeId].nickname)
+                            await user.setNickname(ranks[rank].name + ' ' + enlisted[enlisteeId].nickname)
 
                             rankConfirmation.update({
                                 content: `Changed ${enlisted[enlisteeId].nickname}'s rank to ${rank}`,

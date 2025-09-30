@@ -1,1 +1,5 @@
-[E1] RCT,[E1] PVT,[E2] PVT,[E3] LCOL,[E4] LCOL,[E5] SGT,[E6] SGT,[E7] GYSGT
+{
+    "RCT": {"name": "[E-1] RCT", "rank": "[E-1] Recruite", "group": "-=Junior Enlisted=-"},
+    "PVT": {"name": "[E-1] PVT", "rank": "[E-1] Private", "group": "-=Junior Enlisted=-"},
+    "PFC": {"name": "[E-2] PFC", "rank": "[E-2] Private First Class", "group": "-=Junior Enlisted=-"}
+}
