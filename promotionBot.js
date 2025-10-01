@@ -23,6 +23,17 @@ fs.readFile("./promotionBot/ranks.txt", "utf8", (err,data) => {
     }
 });
 
+let awards = [];
+
+fs.readFile("./promotionBot/awards.txt", "utf8", (err,data) => {
+    if(err){
+        console.error(err);
+    }else{
+        awards = data.split(",");
+        client.awards = awards;
+    }
+});
+
 let enlisted = {};
 
 fs.readFile("./promotionBot/enlisted.txt", "utf-8", (err, data) => {
