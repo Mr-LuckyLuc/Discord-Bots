@@ -67,7 +67,7 @@ module.exports = {
                 const enlistee = enlisted[enlisteeId];
 
                 const oldGroup = interaction.guild.roles.cache.find(role => role.name === ranks[enlistee.rank].group);
-                            const oldRank = interaction.guild.roles.cache.find(role => role.name === ranks[enlistee.rank].rank);
+                const oldRank = interaction.guild.roles.cache.find(role => role.name === ranks[enlistee.rank].rank);
 
                 if (enlisteeId == interaction.guild.ownerId) {
                     await userConfirmation.update({content: "No permission to change this soldier (server owner)", components: []});
@@ -99,8 +99,8 @@ module.exports = {
                                 }
                             });
                             
-                            const newGroup = interaction.guild.roles.cache.find(role => role.name === ranks[rank].group);
-                            const newRank = interaction.guild.roles.cache.find(role => role.name === ranks[rank].rank);
+                            const newGroup = await interaction.guild.roles.cache.find(role => role.name === ranks[rank].group);
+                            const newRank = await interaction.guild.roles.cache.find(role => role.name === ranks[rank].rank);
 
                             user.roles.remove(oldGroup);
                             user.roles.add(newGroup);

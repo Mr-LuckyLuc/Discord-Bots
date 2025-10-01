@@ -12,7 +12,7 @@ const { Client, Collection, Events, GatewayIntentBits, REST, Routes} = require('
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers] });
 
 // Construct and prepare an instance of the REST module
-let ranks = [];
+let ranks = {};
 
 fs.readFile("./promotionBot/ranks.txt", "utf8", (err,data) => {
     if(err){
@@ -23,14 +23,14 @@ fs.readFile("./promotionBot/ranks.txt", "utf8", (err,data) => {
     }
 });
 
-let users = {};
+let enlisted = {};
 
 fs.readFile("./promotionBot/enlisted.txt", "utf-8", (err, data) => {
     if (err) {
         console.error(err)
     } else {
-        users = JSON.parse(data);
-        client.enlisted = users;
+        enlisted = JSON.parse(data);
+        client.enlisted = enlisted;
     }
 })
 
@@ -64,13 +64,32 @@ const rest = new REST().setToken(process.env.TOKEN);
 })();
 
 client.on('guildMemberAdd', member => {
-    const role = member.guild.roles.cache.find(role => role.name === '[E-1] Recruite');
-    member.roles.add(role);
-    console.log(member);
     
-    const name = member.user.username
+    let enlistee = {};
 
-    member.setNickname("[E-1] RCT " + (name.length>22 ? name.slice(0,21) : name));
+    if (member.id in enlisted) {
+        enlistee = enlisted[member.id];
+    } else {
+        const group = member.guild.roles.cache.find(role => role.name === '-=Recruit=-');
+        const rank = member.guild.roles.cache.find(role => role.name === 'Recruit');
+        member.roles.add(group);
+        member.roles.add(rank);
+
+        const name = member.user.username
+        enlistee.nickname = (name.length>20 ? name.slice(0,20) : name);
+        enlistee.rank = "RCT";
+        enlisted[member.id] =  enlistee;
+
+        fs.writeFile("./promotionBot/enlisted.txt", JSON.stringify(enlisted), (err) => {
+            if(err){
+                console.log(err);
+            }else{
+                console.log('person added');
+            }
+        });
+    }
+    
+    member.setNickname(ranks[enlistee.rank].name + ' ' + enlistee.nickname);
 });
 
 client.on(Events.InteractionCreate, (interaction) => {
