@@ -3,7 +3,6 @@ const {StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder,
 const fs = require('node:fs');
 
 module.exports = {
-    //for cooldowns see discord.js docs: https://discordjs.guide/additional-features/cooldowns.html
 	data: new SlashCommandBuilder()
 		.setName('promote')
 		.setDescription('Promote somebody!'),
@@ -28,7 +27,7 @@ module.exports = {
 			.setCustomId('rank')
 			.setPlaceholder('Make a selection!');
         
-		for (const [rank, info] of Object.entries(ranks)) {
+		for (const [rank, _] of Object.entries(ranks)) {
             rankSelect.addOptions(
 				new StringSelectMenuOptionBuilder()
 					.setLabel(rank)

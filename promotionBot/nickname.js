@@ -3,10 +3,10 @@ const {SlashCommandBuilder, MessageFlags} = require('discord.js')
 const fs = require('node:fs');
 
 module.exports = {
-    //for cooldowns see discord.js docs: https://discordjs.guide/additional-features/cooldowns.html
 	data: new SlashCommandBuilder()
 		.setName('nickname')
-		.setDescription('Change your nickname!').addStringOption(option =>
+		.setDescription('Change your nickname!')
+        .addStringOption(option =>
             option.setName('nickname')
                 .setDescription('your new nickname')
                 .setRequired(true)),
