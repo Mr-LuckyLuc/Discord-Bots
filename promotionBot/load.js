@@ -9,32 +9,35 @@ module.exports = {
         
 	async execute(interaction) {
 
+        await interaction.deferReply();
+
         const client = interaction.client;
         const ranks = client.ranks;
         const rankList = Object.fromEntries(Object.entries(ranks).map(([i, rank])=> {
             return [rank.rank, i]
         }));
-        const members = interaction.member.guild.members.cache;
+        const members = await interaction.member.guild.members.fetch();
 
         console.log(rankList);
 
         const enlisted = {};
 
         members.forEach(member => {
-            console.log(member);
-            const roles = member.roles.cache;
-            roles.forEach(role => {
-                console.log(role.name)
-                console.log(role.name in rankList)
+            if (!member.user.bot && !(member.user.id == member.guild.ownerId)) {
+                const roles = member.roles.cache;
+                roles.forEach(role => {
+                    console.log(role.name)
+                    console.log(role.name in rankList)
 
-                if (role.name in rankList) {
-                    Object.entries(ranks).forEach( ([i, rank]) => {
-                        if (rank.rank === role.name) {
-                            enlisted[member.user.id] = {nickname: member.nickname.slice(rank.name.length+1), rank: i}
-                        }
-                    })
-                }
-            });
+                    if (role.name in rankList) {
+                        Object.entries(ranks).forEach( ([i, rank]) => {
+                            if (rank.rank === role.name) {
+                                enlisted[member.user.id] = {nickname: member.nickname.slice(rank.name.length+1), rank: i}
+                            }
+                        })
+                    }
+                });
+            }
         }); 
 
         console.log(enlisted);
@@ -43,10 +46,10 @@ module.exports = {
             if(err){
                 console.log(err);
             }else{
-                console.log('rank changed');
+                console.log('Loaded');
             }
         });
 
-        interaction.reply({content: "Loaded", flags: MessageFlags.Ephemeral})
+        interaction.editReply({content: "Loaded", flags: MessageFlags.Ephemeral})
 	}
 }
