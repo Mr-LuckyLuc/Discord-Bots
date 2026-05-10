@@ -19,12 +19,14 @@ const command =  {
 
 		const sentCode = interaction.options.getString('code');
         const role = interaction.guild.roles.cache.find((role) => role.name == roleName);
-        if (sentCode == actualCode) {
+        if (sentCode.toLowerCase() == actualCode.toLowerCase()) {
             interaction.member.roles.add(role);
             interaction.reply({ content: "You are now a coach", flags: MessageFlags.Ephemeral });
+            console.log(`Made ${interaction.member.nickname} a coach.`)
             return;
         }
         interaction.reply({ content: "Not a valid code", flags: MessageFlags.Ephemeral });
+            console.log(`${interaction.member.nickname} failed with code ${sentCode}.`)
 
 	}
 }
