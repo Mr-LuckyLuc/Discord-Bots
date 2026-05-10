@@ -3,7 +3,7 @@ const client = new Client({ intents: [IntentsBitField.Flags.Guilds, IntentsBitFi
 require("dotenv").config({ path: __dirname+'/.env' }); //to start process from .env file
 
 const actualCode = "codercool";
-const roleId = "1502995067793833995";
+const roleName = "Coach";
 
 const command =  {
 	data: new SlashCommandBuilder()
@@ -18,7 +18,7 @@ const command =  {
 	async execute(interaction) {
 
 		const sentCode = interaction.options.getString('code');
-        const role = interaction.guild.roles.cache.get(roleId);
+        const role = interaction.guild.roles.cache.find((role) => role.name == roleName);
         if (sentCode == actualCode) {
             interaction.member.roles.add(role);
             interaction.reply({ content: "You are now a coach", flags: MessageFlags.Ephemeral });
